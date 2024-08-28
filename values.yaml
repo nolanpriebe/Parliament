@@ -1,0 +1,9 @@
+# values.yaml
+replicaCount: 1
+image:
+  repository: npriebe/parliament
+  tag: latest
+  pullPolicy: Always
+service:
+  type: ClusterIP
+  port: 80

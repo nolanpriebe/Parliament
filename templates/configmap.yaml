@@ -1,0 +1,9 @@
+# templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "parliament.fullname" . }}-config
+  labels:
+    {{- include "parliament.labels" . | nindent 4 }}
+data:
+  # Add your configuration data here
