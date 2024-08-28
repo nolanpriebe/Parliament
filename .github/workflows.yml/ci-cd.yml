@@ -1,9 +1,11 @@
+name: Build and Push Docker Image
+
 on:
   push:
     branches: [ main ]
 
 jobs:
-  build-and-deploy:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -23,18 +25,11 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/parliament:latest
 
-    - name: Install Helm
-      uses: azure/setup-helm@v1
-      with:
-        version: v3.4.0
-
-    - name: Deploy to K3s
-      env:
-        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+    - name: Update deployment file
       run: |
-        echo "$KUBE_CONFIG" > kubeconfig
-        export KUBECONFIG=./kubeconfig
-        helm upgrade --install parliament ./parliament \
-          --set image.repository=${{ secrets.DOCKERHUB_USERNAME }}/parliament \
-          --set image.tag=latest \
-          --namespace default
+        sed -i 's|image: .*|image: ${{ secrets.DOCKERHUB_USERNAME }}/parliament:latest|' deploy/deployment.yaml
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add deploy/deployment.yaml
+        git commit -m "Update image tag" || echo "No changes to commit"
+        git push
