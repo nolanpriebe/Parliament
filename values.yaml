@@ -1,7 +1,7 @@
 # values.yaml
 replicaCount: 1
 image:
-  repository: npriebe/parliament
+  repository: nolanpriebe/parliament
   tag: latest
   pullPolicy: Always
 service:
