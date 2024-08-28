@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: parliament
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: parliament
+  template:
+    metadata:
+      labels:
+        app: parliament
+    spec:
+      containers:
+      - name: parliament
+        image: nolanpriebe/parliament:latest
+        ports:
+        - containerPort: 80
