@@ -7,3 +7,23 @@ image:
 service:
   type: ClusterIP
   port: 80
+
+rabbitmq:
+  auth:
+    username: npriebe
+    existingPasswordSecret: rabbitmq-admin-password
+    existingErlangSecret: rabbitmq-erlang-cookie
+  metrics:
+    enabled: true
+
+parliament:
+  image:
+    repository: ghcr.io/nolanpriebe/parliament
+    tag: latest
+  rabbitmq:
+    host: "{{ .Release.Name }}-rabbitmq"
+    port: 5672
+    user: 
+      name: npriebe
+      existingSecret: rabbitmq-admin-password
+      existingSecretKey: rabbitmq-password

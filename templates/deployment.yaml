@@ -1,4 +1,3 @@
-# templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,9 +16,23 @@ spec:
     spec:
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.parliament.image.repository }}:{{ .Values.parliament.image.tag }}"
+          imagePullPolicy: {{ .Values.parliament.image.pullPolicy }}
+          env:
+            - name: RABBITMQ_HOST
+              value: {{ .Values.parliament.rabbitmq.host | quote }}
+            - name: RABBITMQ_PORT
+              value: {{ .Values.parliament.rabbitmq.port | quote }}
+            - name: RABBITMQ_USER
+              value: {{ .Values.parliament.rabbitmq.user.name | quote }}
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.parliament.rabbitmq.user.existingSecret }}
+                  key: {{ .Values.parliament.rabbitmq.user.existingSecretKey }}
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
