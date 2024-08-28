@@ -1,6 +1,5 @@
 # Parliment: An AI Swarm Framework for Autonomous Agent Collaboration
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Python Version](https://img.shields.io/badge/python-3.7%2B-brightgreen.svg)](https://www.python.org/)
 [![Kubernetes](https://img.shields.io/badge/kubernetes-1.20%2B-blue.svg)](https://kubernetes.io/)
 [![RabbitMQ](https://img.shields.io/badge/rabbitmq-3.8%2B-orange.svg)](https://www.rabbitmq.com/)
