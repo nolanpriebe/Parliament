@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "parliament.fullname" . }}-rabbitmq
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: {{ .Values.rabbitmq.ingress.hostname }}
+      http:
+        paths:
+          - path: {{ .Values.rabbitmq.ingress.path }}
+            pathType: {{ .Values.rabbitmq.ingress.pathType }}
+            backend:
+              service:
+                name: {{ .Release.Name }}-rabbitmq
+                port: 
+                  number: 15672
